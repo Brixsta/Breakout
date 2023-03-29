@@ -2,32 +2,51 @@ import * as classes from "./classes.js";
 import * as creation from "./creation.js";
 export const canvas = document.getElementById("game");
 export const ctx = canvas.getContext("2d");
-const startGameButton = document.querySelector(".start-game-button");
 
 export const global = {
   level: 1,
   score: 0,
-  lives: 1,
+  lives: 3,
   inPlay: false,
-  theme: new Audio("./theme.mp3"),
+  theme: new Audio("./audio/theme.mp3"),
   edgeSize: 32,
   BRICK_WIDTH: 89.8,
   BRICK_HEIGHT: 18,
   map: [],
   bricks: [],
-  portalOpenings: [],
   ROWS: 8,
   COLS: 8,
   bgImg: new Image(),
   edgeImg: new Image(),
-  portalImg: new Image(),
 };
 
+function createSplashPage() {
+  const img = new Image();
+  img.src = "./images/favicon.png";
+  const splashContainer = document.createElement("div");
+  const splashTitle = document.createElement("span");
+  splashTitle.classList.add("splash-title");
+  splashTitle.innerText = "Breakout";
+  splashContainer.appendChild(splashTitle);
+  splashContainer.appendChild(img);
+  splashContainer.classList.add("splash-container");
+  const wrapper = document.querySelector(".wrapper");
+  wrapper.appendChild(splashContainer);
+  const startGameButton = document.createElement("button");
+  startGameButton.classList.add("start-game-button");
+  startGameButton.innerText = "Start Game";
+  splashContainer.appendChild(startGameButton);
+  startGameButton.addEventListener("click", handleStartGameButtonClick);
+}
+
 window.addEventListener("mousemove", handleMouseMove);
-startGameButton.addEventListener("click", handleStartGameButtonClick);
 
 function handleStartGameButtonClick() {
+  const splashContainer = document.querySelector(".splash-container");
+
+  const startGameButton = document.querySelector(".start-game-button");
   startGameButton.removeEventListener("click", handleStartGameButtonClick);
+  splashContainer.remove();
   createCountdownContainer("Game is Starting");
   creation.createMap();
   creation.createBricks();
@@ -42,7 +61,6 @@ function handleMouseMove(e) {
 }
 
 export function decrementLives() {
-  console.log(global.lives);
   global.lives--;
   if (global.lives === 0) gameOver();
   const livesContainerTitle = document.querySelector(".lives-container-title");
@@ -50,10 +68,9 @@ export function decrementLives() {
 }
 
 function gameOver() {
-  const audio = new Audio("./gameover.mp3");
+  const audio = new Audio("./audio/gameover.mp3");
   audio.volume = 0.2;
   audio.play();
-  console.log("GAME OVER");
   global.theme.pause();
   createGameOverContainer();
 }
@@ -99,18 +116,21 @@ function handleReplayButtonClick() {
 function restartGame() {
   global.level = 1;
   global.score = 0;
-  global.lives = 1;
+  global.lives = 3;
   global.inPlay = false;
   global.theme.currentTime = 0;
   global.map = [];
   global.bricks = [];
-  global.portalOpenings = [];
   global.ROWS = 8;
   global.COLS = 8;
   creation.createMap();
   creation.createBricks();
   const livesContainerTitle = document.querySelector(".lives-container-title");
   livesContainerTitle.innerText = `Lives: ${global.lives}`;
+  const scoreContainerTitle = document.querySelector(".score-container-title");
+  scoreContainerTitle.innerText = `Score: ${global.score}`;
+  const levelContainerTitle = document.querySelector(".level-container-title");
+  levelContainerTitle.innerText = `Level: ${global.level}`;
   createCountdownContainer("Game is Starting");
 }
 
@@ -194,8 +214,8 @@ export function incrementLevel() {
 function createCountdown() {
   const countdownContainer = document.querySelector(".countdown-container");
   const countdownText = document.querySelector(".countdown-text");
-  const start = new Audio("./start.mp3");
-  const beep = new Audio("./beep.mp3");
+  const start = new Audio("./audio/start.mp3");
+  const beep = new Audio("./audio/beep.mp3");
   global.theme.play();
   global.theme.volume = 0.2;
   global.theme.loop = true;
@@ -228,15 +248,13 @@ function createCountdown() {
 const paddle = new classes.Paddle();
 export const ball = new classes.Ball();
 
-const portal = new classes.Portal();
+createSplashPage();
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawConsole();
   creation.drawBackground();
   creation.drawEdges();
-  portal.update();
-  global.portalOpenings.forEach((opening) => opening.update());
   paddle.update();
   global.bricks.forEach((brick) => brick.update());
   ball.update();

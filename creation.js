@@ -3,20 +3,14 @@ import * as classes from "./classes.js";
 
 export function drawBackground() {
   let bg = index.global.bgImg;
-  if (index.global.level === 1) bg.src = "./bg1.png";
-  if (index.global.level === 2) bg.src = "./bg2.png";
-  if (index.global.level === 3) bg.src = "./bg3.png";
+  bg.src = "./images/bg1.png";
   const pattern = index.ctx.createPattern(bg, "repeat");
   index.ctx.fillStyle = pattern;
   index.ctx.fillRect(0, 0, index.canvas.width, index.canvas.height);
 }
 
 export function drawEdges() {
-  // change edge picture when level changes
-  if (index.global.level === 1) index.global.edgeImg.src = "./edge1.png";
-  if (index.global.level === 2) index.global.edgeImg.src = "./edge2.png";
-  if (index.global.level === 3) index.global.edgeImg.src = "./edge3.png";
-
+  index.global.edgeImg.src = "./images/edge1.png";
   index.ctx.strokeStyle = "rgba(0,0,0,.5)";
   const edge = index.global.edgeSize;
   const pattern = index.ctx.createPattern(index.global.edgeImg, "repeat");
@@ -27,8 +21,7 @@ export function drawEdges() {
 
   // left edge
   index.ctx.fillRect(0, 0, edge, index.canvas.height);
-  if (index.global.level === 1)
-    index.ctx.strokeRect(edge, edge, 0.0625, index.canvas.height);
+  index.ctx.strokeRect(edge, edge, 0.0625, index.canvas.height);
 
   // right edge
   index.ctx.fillRect(
@@ -37,14 +30,12 @@ export function drawEdges() {
     index.canvas.width,
     index.canvas.height
   );
-  if (index.global.level === 1) {
-    index.ctx.strokeRect(
-      index.canvas.width - edge,
-      edge,
-      0.0625,
-      index.canvas.height
-    );
-  }
+  index.ctx.strokeRect(
+    index.canvas.width - edge,
+    edge,
+    0.0625,
+    index.canvas.height
+  );
 }
 
 export function createMap() {

@@ -48,7 +48,7 @@ export class Paddle {
       ball.y < this.y + this.height
     ) {
       // play bounce sound
-      const bounce = new Audio("./bounce.mp3");
+      const bounce = new Audio("./audio/bounce.mp3");
       bounce.play();
       bounce.volume = 0.5;
 
@@ -95,7 +95,7 @@ export class Ball {
     // player dies by falling vertically off the edge
     if (this.y > index.canvas.height && index.global.inPlay) {
       index.decrementLives();
-      const died = new Audio("./died.mp3");
+      const died = new Audio("./audio/died.mp3");
       died.volume = 0.05;
       died.play();
       index.global.inPlay = false;
@@ -188,7 +188,7 @@ export class Brick {
     ) {
       this.decrementHealth();
       this.checkAllBricksGone();
-      const tink = new Audio("./tink.mp3");
+      const tink = new Audio("./audio/tink.mp3");
       tink.play();
       tink.volume = 0.35;
       ball.yVelocity *= -1;
@@ -220,63 +220,5 @@ export class Brick {
     this.draw();
     this.detectBallCollision();
     this.changeColor();
-  }
-}
-
-export class Portal {
-  constructor() {
-    this.count = 0;
-    this.interval = 300;
-  }
-  draw() {
-    const edgeSize = index.global.edgeSize;
-    const portalImg = index.global.portalImg;
-    portalImg.src = "./portal.png";
-    const pattern = index.ctx.createPattern(portalImg, "repeat");
-    index.ctx.fillStyle = pattern;
-    index.ctx.fillRect(0, 224, edgeSize, 128);
-  }
-
-  openPortal() {
-    this.count++;
-    if (this.count === this.interval) {
-      this.count = 0;
-      const opening1 = new PortalOpening("up");
-      const opening2 = new PortalOpening("down");
-      index.global.portalOpenings.push(opening1);
-      index.global.portalOpenings.push(opening2);
-    }
-  }
-
-  update() {
-    this.draw();
-    this.openPortal();
-  }
-}
-
-class PortalOpening {
-  constructor(direction) {
-    this.x = 0;
-    this.y = 288;
-    this.width = 32;
-    this.height = 0;
-    this.direction = direction;
-    this.velocity = 0.25;
-  }
-
-  draw() {
-    index.ctx.fillStyle = "black";
-    index.ctx.fillRect(this.x, this.y, this.width, this.height);
-
-    if (this.direction === "down") this.height += this.velocity;
-    if (this.direction === "up") this.height -= this.velocity;
-
-    if (Math.abs(this.height) > 64) {
-      this.velocity = 0;
-    }
-  }
-
-  update() {
-    if (index.global.inPlay && index.global.lives > 0) this.draw();
   }
 }
