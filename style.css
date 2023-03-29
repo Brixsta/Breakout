@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  font-family: "Manrope", sans-serif;
+}
+
+.wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  border-right: solid 5px black;
+  border-left: solid 5px black;
+  border-bottom: solid 5px black;
+  border-top: none;
+}
+
+.canvas-container {
+  position: relative;
+}
+
+.game-over-container {
+  background-image: url("./menu.png");
+  background-size: cover;
+  background-position: center;
+  width: 320px;
+  height: 200px;
+  z-index: 1000;
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.countdown-container {
+  background-image: url("./menu.png");
+  background-size: cover;
+  background-position: center;
+  width: 320px;
+  height: 200px;
+  z-index: 1000;
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.game-over-container {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.countdown-header {
+  color: white;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.game-over-container-title {
+  width: 100%;
+  font-size: 30px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-over-score-container,
+.replay-button-container {
+  width: 50%;
+  font-size: 20px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -70px;
+}
+
+.game-over-score-header {
+  margin-right: -30px;
+}
+
+.replay-button {
+  font-size: 16px;
+  margin-left: -30px;
+  width: 80px;
+  padding: 5px;
+  color: white;
+  border: solid 2px #002540;
+  background-color: inherit;
+  transition: all ease-in-out 200ms;
+}
+
+.replay-button:hover {
+  cursor: pointer;
+  background-color: #002540;
+  color: white;
+}
+
+.countdown-text {
+  color: white;
+  font-size: 30px;
+  margin-top: 5px;
+  z-index: 1000;
+}
+
+.console {
+  width: 800px;
+  height: 75px;
+  background-color: black;
+  background-image: url("./console.png");
+  position: absolute;
+  top: -85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 5px black;
+}
+
+.score-container,
+.lives-container,
+.level-container {
+  width: 33.33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+}
+
+.disappear {
+  animation-name: disappear;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-in;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
